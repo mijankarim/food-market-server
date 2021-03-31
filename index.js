@@ -1,6 +1,7 @@
 const express = require("express");
 const app = express();
 const MongoClient = require("mongodb").MongoClient;
+const ObjectId = require('mongodb').ObjectId;
 const cors = require("cors");
 require("dotenv").config();
 const port = process.env.PORT || 5050;
@@ -46,6 +47,14 @@ client.connect((err) => {
     ordersCollection.find({email: req.query.email })
     .toArray((err, documents) => {
       res.send(documents);
+    })
+  })
+
+  app.delete('/delete/:id', (req,res) => {
+    console.log(req.params.id)
+    productsCollection.deleteOne({_id: ObjectId(req.params.id)})
+    .then(result => {
+      console.log(result.deletedCount)
     })
   })
 
