@@ -19,6 +19,7 @@ const client = new MongoClient(uri, {
 });
 client.connect((err) => {
   const productsCollection = client.db("foodMarket").collection("products");
+  const ordersCollection = client.db("foodMarket").collection("orders");
 
   app.get("/products", (req, res) => {
      productsCollection.find()
@@ -29,12 +30,26 @@ client.connect((err) => {
 
   app.post("/addProduct", (req, res) => {
     const newProduct = req.body;
-    console.log("adding new product:", newProduct);
     productsCollection.insertOne(newProduct).then((result) => {
-      console.log("inserted count", result.insertedCount);
       res.send(result.insertedCount > 0);
     });
   });
+
+  app.post("/addOrder", (req, res) => {
+    const order = req.body;
+    ordersCollection.insertOne(order).then((result) => {
+      res.send(result.insertedCount > 0);
+    });
+  });
+
+  app.get('/orders', (req,res) => {
+    ordersCollection.find({email: req.query.email })
+    .toArray((err, documents) => {
+      res.send(documents);
+    })
+  })
+
+
 });
 
 app.listen(port);
