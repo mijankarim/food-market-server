@@ -1,6 +1,6 @@
 # Food Market Full Stack App Server
+### Used on this app
+* Express Js
+* MongoDB
 
-### Express
-### MongoDB
-
-### [Live Site Link](https://food-market-ccf50.web.app/)
+### [Client Site Live Link](https://food-market-ccf50.web.app/)
